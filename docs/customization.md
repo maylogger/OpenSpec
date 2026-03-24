@@ -1,30 +1,30 @@
-# Customization
+# 自訂
 
-OpenSpec provides three levels of customization:
+OpenSpec 提供三個層級的自訂：
 
-| Level | What it does | Best for |
-|-------|--------------|----------|
-| **Project Config** | Set defaults, inject context/rules | Most teams |
-| **Custom Schemas** | Define your own workflow artifacts | Teams with unique processes |
-| **Global Overrides** | Share schemas across all projects | Power users |
+| 層級 | 功能 | 最適合 |
+|------|------|--------|
+| **專案設定** | 設定預設值、注入背景資訊/規則 | 大多數團隊 |
+| **自訂結構描述** | 定義你自己的工作流程產出物 | 有獨特流程的團隊 |
+| **全域覆寫** | 在所有專案間共用結構描述 | 進階使用者 |
 
 ---
 
-## Project Configuration
+## 專案設定
 
-The `openspec/config.yaml` file is the easiest way to customize OpenSpec for your team. It lets you:
+`openspec/config.yaml` 檔案是為你的團隊自訂 OpenSpec 最簡單的方式。它讓你可以：
 
-- **Set a default schema** - Skip `--schema` on every command
-- **Inject project context** - AI sees your tech stack, conventions, etc.
-- **Add per-artifact rules** - Custom rules for specific artifacts
+- **設定預設結構描述** — 每次指令都不需加上 `--schema`
+- **注入專案背景資訊** — AI 可看到你的技術堆疊、慣例等
+- **加入各產出物規則** — 針對特定產出物的自訂規則
 
-### Quick Setup
+### 快速設定
 
 ```bash
 openspec init
 ```
 
-This walks you through creating a config interactively. Or create one manually:
+這會引導你以互動方式建立設定。或手動建立：
 
 ```yaml
 # openspec/config.yaml
@@ -45,21 +45,21 @@ rules:
     - Reference existing patterns before inventing new ones
 ```
 
-### How It Works
+### 運作方式
 
-**Default schema:**
+**預設結構描述：**
 
 ```bash
-# Without config
+# 沒有設定時
 openspec new change my-feature --schema spec-driven
 
-# With config - schema is automatic
+# 有設定時 — 結構描述自動套用
 openspec new change my-feature
 ```
 
-**Context and rules injection:**
+**背景資訊與規則注入：**
 
-When generating any artifact, your context and rules are injected into the AI prompt:
+生成任何產出物時，你的背景資訊和規則會注入至 AI 提示中：
 
 ```xml
 <context>
@@ -73,82 +73,82 @@ Tech stack: TypeScript, React, Node.js, PostgreSQL
 </rules>
 
 <template>
-[Schema's built-in template]
+[結構描述的內建範本]
 </template>
 ```
 
-- **Context** appears in ALL artifacts
-- **Rules** ONLY appear for the matching artifact
+- **背景資訊**出現在所有產出物中
+- **規則**僅出現在對應的產出物中
 
-### Schema Resolution Order
+### 結構描述解析順序
 
-When OpenSpec needs a schema, it checks in this order:
+OpenSpec 需要結構描述時，按以下順序檢查：
 
-1. CLI flag: `--schema <name>`
-2. Change metadata (`.openspec.yaml` in the change folder)
-3. Project config (`openspec/config.yaml`)
-4. Default (`spec-driven`)
+1. CLI 旗標：`--schema <name>`
+2. 變更元資料（變更資料夾中的 `.openspec.yaml`）
+3. 專案設定（`openspec/config.yaml`）
+4. 預設（`spec-driven`）
 
 ---
 
-## Custom Schemas
+## 自訂結構描述
 
-When project config isn't enough, create your own schema with a completely custom workflow. Custom schemas live in your project's `openspec/schemas/` directory and are version-controlled with your code.
+當專案設定不夠用時，可建立具有完全自訂工作流程的結構描述。自訂結構描述存放在你專案的 `openspec/schemas/` 目錄中，並與程式碼一同進行版本控制。
 
 ```text
 your-project/
 ├── openspec/
-│   ├── config.yaml        # Project config
-│   ├── schemas/           # Custom schemas live here
+│   ├── config.yaml        # 專案設定
+│   ├── schemas/           # 自訂結構描述存放於此
 │   │   └── my-workflow/
 │   │       ├── schema.yaml
 │   │       └── templates/
-│   └── changes/           # Your changes
+│   └── changes/           # 你的變更
 └── src/
 ```
 
-### Fork an Existing Schema
+### 衍生現有結構描述
 
-The fastest way to customize is to fork a built-in schema:
+最快的自訂方式是衍生內建結構描述：
 
 ```bash
 openspec schema fork spec-driven my-workflow
 ```
 
-This copies the entire `spec-driven` schema to `openspec/schemas/my-workflow/` where you can edit it freely.
+這會將完整的 `spec-driven` 結構描述複製到 `openspec/schemas/my-workflow/`，你可以自由編輯。
 
-**What you get:**
+**你得到的內容：**
 
 ```text
 openspec/schemas/my-workflow/
-├── schema.yaml           # Workflow definition
+├── schema.yaml           # 工作流程定義
 └── templates/
-    ├── proposal.md       # Template for proposal artifact
-    ├── spec.md           # Template for specs
-    ├── design.md         # Template for design
-    └── tasks.md          # Template for tasks
+    ├── proposal.md       # 提案產出物的範本
+    ├── spec.md           # 規格範本
+    ├── design.md         # 設計範本
+    └── tasks.md          # 任務範本
 ```
 
-Now edit `schema.yaml` to change the workflow, or edit templates to change what AI generates.
+現在編輯 `schema.yaml` 來變更工作流程，或編輯範本來變更 AI 生成的內容。
 
-### Create a Schema from Scratch
+### 從頭建立結構描述
 
-For a completely fresh workflow:
+對於全新的工作流程：
 
 ```bash
-# Interactive
+# 互動式
 openspec schema init research-first
 
-# Non-interactive
+# 非互動式
 openspec schema init rapid \
   --description "Rapid iteration workflow" \
   --artifacts "proposal,tasks" \
   --default
 ```
 
-### Schema Structure
+### 結構描述結構
 
-A schema defines the artifacts in your workflow and how they depend on each other:
+結構描述定義工作流程中的產出物及其相互依賴關係：
 
 ```yaml
 # openspec/schemas/my-workflow/schema.yaml
@@ -173,7 +173,7 @@ artifacts:
     instruction: |
       Create a design document explaining HOW to implement.
     requires:
-      - proposal    # Can't create design until proposal exists
+      - proposal    # 提案存在前無法建立設計
 
   - id: tasks
     generates: tasks.md
@@ -187,79 +187,79 @@ apply:
   tracks: tasks.md
 ```
 
-**Key fields:**
+**關鍵欄位：**
 
-| Field | Purpose |
-|-------|---------|
-| `id` | Unique identifier, used in commands and rules |
-| `generates` | Output filename (supports globs like `specs/**/*.md`) |
-| `template` | Template file in `templates/` directory |
-| `instruction` | AI instructions for creating this artifact |
-| `requires` | Dependencies - which artifacts must exist first |
+| 欄位 | 用途 |
+|------|------|
+| `id` | 唯一識別碼，用於指令和規則 |
+| `generates` | 輸出檔案名稱（支援如 `specs/**/*.md` 的 glob） |
+| `template` | `templates/` 目錄中的範本檔案 |
+| `instruction` | AI 建立此產出物的指示 |
+| `requires` | 依賴關係 — 哪些產出物必須先存在 |
 
-### Templates
+### 範本
 
-Templates are markdown files that guide the AI. They're injected into the prompt when creating that artifact.
+範本是引導 AI 的 Markdown 檔案，建立該產出物時會注入至提示中。
 
 ```markdown
 <!-- templates/proposal.md -->
-## Why
+## 為何
 
-<!-- Explain the motivation for this change. What problem does this solve? -->
+<!-- 說明此變更的動機。這解決了什麼問題？ -->
 
-## What Changes
+## 變更內容
 
-<!-- Describe what will change. Be specific about new capabilities or modifications. -->
+<!-- 描述將會改變什麼。具體說明新功能或修改。 -->
 
-## Impact
+## 影響
 
-<!-- Affected code, APIs, dependencies, systems -->
+<!-- 受影響的程式碼、API、依賴項、系統 -->
 ```
 
-Templates can include:
-- Section headers the AI should fill in
-- HTML comments with guidance for the AI
-- Example formats showing expected structure
+範本可包含：
+- AI 應填入的章節標題
+- 為 AI 提供引導的 HTML 注釋
+- 顯示預期結構的範例格式
 
-### Validate Your Schema
+### 驗證你的結構描述
 
-Before using a custom schema, validate it:
+使用自訂結構描述前，先驗證它：
 
 ```bash
 openspec schema validate my-workflow
 ```
 
-This checks:
-- `schema.yaml` syntax is correct
-- All referenced templates exist
-- No circular dependencies
-- Artifact IDs are valid
+這會檢查：
+- `schema.yaml` 語法是否正確
+- 所有引用的範本是否存在
+- 是否有循環依賴
+- 產出物 ID 是否有效
 
-### Use Your Custom Schema
+### 使用你的自訂結構描述
 
-Once created, use your schema with:
+建立後，使用以下方式使用你的結構描述：
 
 ```bash
-# Specify on command
+# 在指令中指定
 openspec new change feature --schema my-workflow
 
-# Or set as default in config.yaml
+# 或在 config.yaml 中設為預設
 schema: my-workflow
 ```
 
-### Debug Schema Resolution
+### 偵錯結構描述解析
 
-Not sure which schema is being used? Check with:
+不確定使用哪個結構描述？用以下方式查看：
 
 ```bash
-# See where a specific schema resolves from
+# 查看特定結構描述從哪裡解析
 openspec schema which my-workflow
 
-# List all available schemas
+# 列出所有可用的結構描述
 openspec schema which --all
 ```
 
-Output shows whether it's from your project, user directory, or the package:
+輸出顯示它來自你的專案、使用者目錄還是套件：
 
 ```text
 Schema: my-workflow
@@ -269,15 +269,15 @@ Path: /path/to/project/openspec/schemas/my-workflow
 
 ---
 
-> **Note:** OpenSpec also supports user-level schemas at `~/.local/share/openspec/schemas/` for sharing across projects, but project-level schemas in `openspec/schemas/` are recommended since they're version-controlled with your code.
+> **注意：** OpenSpec 也支援在 `~/.local/share/openspec/schemas/` 的使用者層級結構描述，用於跨專案共用，但建議使用 `openspec/schemas/` 中的專案層級結構描述，因為它們與程式碼一同進行版本控制。
 
 ---
 
-## Examples
+## 範例
 
-### Rapid Iteration Workflow
+### 快速迭代工作流程
 
-A minimal workflow for quick iterations:
+快速迭代的最小工作流程：
 
 ```yaml
 # openspec/schemas/rapid/schema.yaml
@@ -306,15 +306,15 @@ apply:
   tracks: tasks.md
 ```
 
-### Adding a Review Artifact
+### 加入審查產出物
 
-Fork the default and add a review step:
+衍生預設並加入審查步驟：
 
 ```bash
 openspec schema fork spec-driven with-review
 ```
 
-Then edit `schema.yaml` to add:
+然後編輯 `schema.yaml` 加入：
 
 ```yaml
   - id: review
@@ -328,15 +328,15 @@ Then edit `schema.yaml` to add:
       - design
 
   - id: tasks
-    # ... existing tasks config ...
+    # ... 現有的任務設定 ...
     requires:
       - specs
       - design
-      - review    # Now tasks require review too
+      - review    # 現在任務也需要審查
 ```
 
 ---
 
-## See Also
+## 另請參閱
 
-- [CLI Reference: Schema Commands](cli.md#schema-commands) - Full command documentation
+- [CLI 參考：結構描述指令](cli.md#schema-commands) — 完整指令文件

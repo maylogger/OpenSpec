@@ -1,81 +1,81 @@
-# OPSX Workflow
+# OPSX 工作流程
 
-> Feedback welcome on [Discord](https://discord.gg/YctCnvvshC).
+> 歡迎在 [Discord](https://discord.gg/YctCnvvshC) 提供意見回饋。
 
-## What Is It?
+## 這是什麼？
 
-OPSX is now the standard workflow for OpenSpec.
+OPSX 現在是 OpenSpec 的標準工作流程。
 
-It's a **fluid, iterative workflow** for OpenSpec changes. No more rigid phases — just actions you can take anytime.
+這是一個適用於 OpenSpec 變更的**流暢、迭代式工作流程**。不再有僵化的階段 — 只有你隨時可以採取的行動。
 
-## Why This Exists
+## 為何存在
 
-The legacy OpenSpec workflow works, but it's **locked down**:
+舊版 OpenSpec 工作流程有效，但**受到限制**：
 
-- **Instructions are hardcoded** — buried in TypeScript, you can't change them
-- **All-or-nothing** — one big command creates everything, can't test individual pieces
-- **Fixed structure** — same workflow for everyone, no customization
-- **Black box** — when AI output is bad, you can't tweak the prompts
+- **指示是硬編碼的** — 埋在 TypeScript 中，你無法修改
+- **全有或全無** — 一個大指令一次建立所有東西，無法單獨測試
+- **固定結構** — 所有人相同的工作流程，無自訂空間
+- **黑盒子** — AI 輸出不佳時，你無法調整提示
 
-**OPSX opens it up.** Now anyone can:
+**OPSX 開放了這一切。** 現在任何人都可以：
 
-1. **Experiment with instructions** — edit a template, see if the AI does better
-2. **Test granularly** — validate each artifact's instructions independently
-3. **Customize workflows** — define your own artifacts and dependencies
-4. **Iterate quickly** — change a template, test immediately, no rebuild
+1. **實驗指示** — 編輯範本，看看 AI 是否表現更好
+2. **細粒度測試** — 獨立驗證每個產出物的指示
+3. **自訂工作流程** — 定義你自己的產出物和依賴關係
+4. **快速迭代** — 修改範本，立即測試，不需要重建
 
 ```
-Legacy workflow:                      OPSX:
+舊版工作流程：                      OPSX：
 ┌────────────────────────┐           ┌────────────────────────┐
-│  Hardcoded in package  │           │  schema.yaml           │◄── You edit this
-│  (can't change)        │           │  templates/*.md        │◄── Or this
+│  硬編碼在套件中         │           │  schema.yaml           │◄── 你可以編輯這個
+│  （無法修改）           │           │  templates/*.md        │◄── 或這個
 │        ↓               │           │        ↓               │
-│  Wait for new release  │           │  Instant effect        │
+│  等待新版本發布         │           │  立即生效              │
 │        ↓               │           │        ↓               │
-│  Hope it's better      │           │  Test it yourself      │
+│  希望更好              │           │  自己測試              │
 └────────────────────────┘           └────────────────────────┘
 ```
 
-**This is for everyone:**
-- **Teams** — create workflows that match how you actually work
-- **Power users** — tweak prompts to get better AI outputs for your codebase
-- **OpenSpec contributors** — experiment with new approaches without releases
+**這適合所有人：**
+- **團隊** — 建立符合你實際工作方式的工作流程
+- **進階使用者** — 調整提示以為你的程式碼庫獲得更好的 AI 輸出
+- **OpenSpec 貢獻者** — 無需發布即可實驗新方法
 
-We're all still learning what works best. OPSX lets us learn together.
+我們都還在學習什麼最有效。OPSX 讓我們一起學習。
 
-## The User Experience
+## 使用者體驗
 
-**The problem with linear workflows:**
-You're "in planning phase", then "in implementation phase", then "done". But real work doesn't work that way. You implement something, realize your design was wrong, need to update specs, continue implementing. Linear phases fight against how work actually happens.
+**線性工作流程的問題：**
+你「在計劃階段」，然後「在實作階段」，然後「完成了」。但真實工作不是這樣的。你實作了一些東西，意識到設計是錯的，需要更新規格，繼續實作。線性階段對抗工作實際發生的方式。
 
-**OPSX approach:**
-- **Actions, not phases** — create, implement, update, archive — do any of them anytime
-- **Dependencies are enablers** — they show what's possible, not what's required next
+**OPSX 方法：**
+- **行動，而非階段** — 建立、實作、更新、封存 — 隨時做任何事
+- **依賴關係是啟用者** — 它們顯示什麼是可能的，而非必須的下一步
 
 ```
   proposal ──→ specs ──→ design ──→ tasks ──→ implement
 ```
 
-## Setup
+## 設定
 
 ```bash
-# Make sure you have openspec installed — skills are automatically generated
+# 確認已安裝 openspec — 技能會自動生成
 openspec init
 ```
 
-This creates skills in `.claude/skills/` (or equivalent) that AI coding assistants auto-detect.
+這會在 `.claude/skills/`（或等效目錄）中建立技能，AI 程式碼助理會自動偵測。
 
-By default, OpenSpec uses the `core` workflow profile (`propose`, `explore`, `apply`, `archive`). If you want the expanded workflow commands (`new`, `continue`, `ff`, `verify`, `sync`, `bulk-archive`, `onboard`), configure them with `openspec config profile` and apply with `openspec update`.
+預設情況下，OpenSpec 使用 `core` 工作流程設定檔（`propose`、`explore`、`apply`、`archive`）。若需要擴充工作流程指令（`new`、`continue`、`ff`、`verify`、`sync`、`bulk-archive`、`onboard`），用 `openspec config profile` 設定，然後用 `openspec update` 套用。
 
-During setup, you'll be prompted to create a **project config** (`openspec/config.yaml`). This is optional but recommended.
+設定期間，你會被提示建立**專案設定**（`openspec/config.yaml`）。這是選用的，但建議使用。
 
-## Project Configuration
+## 專案設定
 
-Project config lets you set defaults and inject project-specific context into all artifacts.
+專案設定讓你設定預設值，並將專案特定背景資訊注入所有產出物。
 
-### Creating Config
+### 建立設定
 
-Config is created during `openspec init`, or manually:
+設定在 `openspec init` 期間建立，或手動建立：
 
 ```yaml
 # openspec/config.yaml
@@ -97,412 +97,411 @@ rules:
     - Include sequence diagrams for complex flows
 ```
 
-### Config Fields
+### 設定欄位
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `schema` | string | Default schema for new changes (e.g., `spec-driven`) |
-| `context` | string | Project context injected into all artifact instructions |
-| `rules` | object | Per-artifact rules, keyed by artifact ID |
+| 欄位 | 類型 | 說明 |
+|------|------|------|
+| `schema` | string | 新變更的預設結構描述（例如 `spec-driven`） |
+| `context` | string | 注入所有產出物指示的專案背景資訊 |
+| `rules` | object | 各產出物規則，以產出物 ID 為鍵 |
 
-### How It Works
+### 運作方式
 
-**Schema precedence** (highest to lowest):
-1. CLI flag (`--schema <name>`)
-2. Change metadata (`.openspec.yaml` in change directory)
-3. Project config (`openspec/config.yaml`)
-4. Default (`spec-driven`)
+**結構描述優先順序**（由高至低）：
+1. CLI 旗標（`--schema <name>`）
+2. 變更元資料（變更目錄中的 `.openspec.yaml`）
+3. 專案設定（`openspec/config.yaml`）
+4. 預設（`spec-driven`）
 
-**Context injection:**
-- Context is prepended to every artifact's instructions
-- Wrapped in `<context>...</context>` tags
-- Helps AI understand your project's conventions
+**背景資訊注入：**
+- 背景資訊前置於每個產出物的指示
+- 以 `<context>...</context>` 標籤包裝
+- 幫助 AI 了解你的專案慣例
 
-**Rules injection:**
-- Rules are only injected for matching artifacts
-- Wrapped in `<rules>...</rules>` tags
-- Appear after context, before the template
+**規則注入：**
+- 規則只注入至對應的產出物
+- 以 `<rules>...</rules>` 標籤包裝
+- 出現在背景資訊之後、範本之前
 
-### Artifact IDs by Schema
+### 各結構描述的產出物 ID
 
-**spec-driven** (default):
-- `proposal` — Change proposal
-- `specs` — Specifications
-- `design` — Technical design
-- `tasks` — Implementation tasks
+**spec-driven**（預設）：
+- `proposal` — 變更提案
+- `specs` — 規格
+- `design` — 技術設計
+- `tasks` — 實作任務
 
-### Config Validation
+### 設定驗證
 
-- Unknown artifact IDs in `rules` generate warnings
-- Schema names are validated against available schemas
-- Context has a 50KB size limit
-- Invalid YAML is reported with line numbers
+- `rules` 中未知的產出物 ID 會產生警告
+- 結構描述名稱會對應可用的結構描述進行驗證
+- 背景資訊有 50KB 大小限制
+- 無效的 YAML 會回報行號
 
-### Troubleshooting
+### 疑難排解
 
-**"Unknown artifact ID in rules: X"**
-- Check artifact IDs match your schema (see list above)
-- Run `openspec schemas --json` to see artifact IDs for each schema
+**「rules 中有未知的產出物 ID：X」**
+- 確認產出物 ID 符合你的結構描述（見上方清單）
+- 執行 `openspec schemas --json` 查看每個結構描述的產出物 ID
 
-**Config not being applied:**
-- Ensure file is at `openspec/config.yaml` (not `.yml`)
-- Check YAML syntax with a validator
-- Config changes take effect immediately (no restart needed)
+**設定未被套用：**
+- 確認檔案在 `openspec/config.yaml`（不是 `.yml`）
+- 用驗證器確認 YAML 語法
+- 設定變更立即生效（不需要重新啟動）
 
-**Context too large:**
-- Context is limited to 50KB
-- Summarize or link to external docs instead
+**背景資訊太大：**
+- 背景資訊限制為 50KB
+- 改為摘要或連結至外部文件
 
-## Commands
+## 指令
 
-| Command | What it does |
-|---------|--------------|
-| `/opsx:propose` | Create a change and generate planning artifacts in one step (default quick path) |
-| `/opsx:explore` | Think through ideas, investigate problems, clarify requirements |
-| `/opsx:new` | Start a new change scaffold (expanded workflow) |
-| `/opsx:continue` | Create the next artifact (expanded workflow) |
-| `/opsx:ff` | Fast-forward planning artifacts (expanded workflow) |
-| `/opsx:apply` | Implement tasks, updating artifacts as needed |
-| `/opsx:verify` | Validate implementation against artifacts (expanded workflow) |
-| `/opsx:sync` | Sync delta specs to main (expanded workflow, optional) |
-| `/opsx:archive` | Archive when done |
-| `/opsx:bulk-archive` | Archive multiple completed changes (expanded workflow) |
-| `/opsx:onboard` | Guided walkthrough of an end-to-end change (expanded workflow) |
+| 指令 | 功能 |
+|------|------|
+| `/opsx:propose` | 一步建立變更和生成規劃產出物（預設快速路徑） |
+| `/opsx:explore` | 思考想法、調查問題、釐清需求 |
+| `/opsx:new` | 開始新的變更架構（擴充工作流程） |
+| `/opsx:continue` | 建立下一個產出物（擴充工作流程） |
+| `/opsx:ff` | 快進規劃產出物（擴充工作流程） |
+| `/opsx:apply` | 實作任務，依需要更新產出物 |
+| `/opsx:verify` | 驗證實作符合產出物（擴充工作流程） |
+| `/opsx:sync` | 將差異規格同步至主要規格（擴充工作流程，選用） |
+| `/opsx:archive` | 完成後封存 |
+| `/opsx:bulk-archive` | 一次封存多個已完成的變更（擴充工作流程） |
+| `/opsx:onboard` | 端對端變更的引導式教學（擴充工作流程） |
 
-## Usage
+## 使用方式
 
-### Explore an idea
+### 探索想法
 ```
 /opsx:explore
 ```
-Think through ideas, investigate problems, compare options. No structure required - just a thinking partner. When insights crystallize, transition to `/opsx:propose` (default) or `/opsx:new`/`/opsx:ff` (expanded).
+思考想法、調查問題、比較選項。不需要任何結構 — 只是一個思考夥伴。當想法結晶時，轉換至 `/opsx:propose`（預設）或 `/opsx:new`/`/opsx:ff`（擴充）。
 
-### Start a new change
+### 開始新的變更
 ```
 /opsx:propose
 ```
-Creates the change and generates planning artifacts needed before implementation.
+建立變更並生成實作前所需的規劃產出物。
 
-If you've enabled expanded workflows, you can instead use:
+若你已啟用擴充工作流程，也可以使用：
 
 ```text
-/opsx:new        # scaffold only
-/opsx:continue   # create one artifact at a time
-/opsx:ff         # create all planning artifacts at once
+/opsx:new        # 只建立架構
+/opsx:continue   # 一次建立一個產出物
+/opsx:ff         # 一次建立所有規劃產出物
 ```
 
-### Create artifacts
+### 建立產出物
 ```
 /opsx:continue
 ```
-Shows what's ready to create based on dependencies, then creates one artifact. Use repeatedly to build up your change incrementally.
+根據依賴關係顯示哪些準備好建立，然後建立一個產出物。重複使用以逐步建構你的變更。
 
 ```
 /opsx:ff add-dark-mode
 ```
-Creates all planning artifacts at once. Use when you have a clear picture of what you're building.
+一次建立所有規劃產出物。當你對要建構的內容有清晰認識時使用。
 
-### Implement (the fluid part)
+### 實作（流暢的部分）
 ```
 /opsx:apply
 ```
-Works through tasks, checking them off as you go. If you're juggling multiple changes, you can run `/opsx:apply <name>`; otherwise it should infer from the conversation and prompt you to choose if it can't tell.
+逐項處理任務，邊進行邊勾選。若你同時處理多個變更，可以執行 `/opsx:apply <name>`；否則它應能從對話中推斷，若無法確定則提示你選擇。
 
-### Finish up
+### 收尾
 ```
-/opsx:archive   # Move to archive when done (prompts to sync specs if needed)
+/opsx:archive   # 完成後移至封存（若需要會提示同步規格）
 ```
 
-## When to Update vs. Start Fresh
+## 何時更新 vs 重新開始
 
-You can always edit your proposal or specs before implementation. But when does refining become "this is different work"?
+你隨時可以在實作前編輯提案或規格。但何時精煉變成「這是不同的工作」？
 
-### What a Proposal Captures
+### 提案記錄的內容
 
-A proposal defines three things:
-1. **Intent** — What problem are you solving?
-2. **Scope** — What's in/out of bounds?
-3. **Approach** — How will you solve it?
+提案定義了三件事：
+1. **意圖** — 你在解決什麼問題？
+2. **範圍** — 哪些在/不在範圍內？
+3. **方法** — 你將如何解決它？
 
-The question is: which changed, and by how much?
+問題是：哪個改變了，改變了多少？
 
-### Update the Existing Change When:
+### 在以下情況更新現有變更：
 
-**Same intent, refined execution**
-- You discover edge cases you didn't consider
-- The approach needs tweaking but the goal is unchanged
-- Implementation reveals the design was slightly off
+**相同意圖，精煉執行方式**
+- 你發現了未考慮到的邊緣情況
+- 方法需要調整，但目標不變
+- 實作揭示設計略有偏差
 
-**Scope narrows**
-- You realize full scope is too big, want to ship MVP first
-- "Add dark mode" → "Add dark mode toggle (system preference in v2)"
+**範圍縮小**
+- 你意識到全部範圍太大，想先推出 MVP
+- 「加入深色模式」→「加入深色模式切換（v2 加入系統偏好）」
 
-**Learning-driven corrections**
-- Codebase isn't structured how you thought
-- A dependency doesn't work as expected
-- "Use CSS variables" → "Use Tailwind's dark: prefix instead"
+**學習驅動的修正**
+- 程式碼庫的結構不如你想像的
+- 依賴項的運作方式不如預期
+- 「使用 CSS 變數」→「改用 Tailwind 的 dark: 前綴」
 
-### Start a New Change When:
+### 在以下情況開始新的變更：
 
-**Intent fundamentally changed**
-- The problem itself is different now
-- "Add dark mode" → "Add comprehensive theme system with custom colors, fonts, spacing"
+**意圖根本性地改變了**
+- 問題本身現在不同了
+- 「加入深色模式」→「加入具有自訂顏色、字體、間距的完整主題系統」
 
-**Scope exploded**
-- Change grew so much it's essentially different work
-- Original proposal would be unrecognizable after updates
-- "Fix login bug" → "Rewrite auth system"
+**範圍爆炸**
+- 變更增長到本質上成為不同的工作
+- 更新後的原始提案將面目全非
+- 「修復登入 bug」→「重寫驗證系統」
 
-**Original is completable**
-- The original change can be marked "done"
-- New work stands alone, not a refinement
-- Complete "Add dark mode MVP" → Archive → New change "Enhance dark mode"
+**原始可以完成**
+- 原始變更可以標記為「完成」
+- 新工作獨立存在，而非精煉
+- 完成「加入深色模式 MVP」→ 封存 → 新的變更「增強深色模式」
 
-### The Heuristics
+### 啟發式方法
 
 ```
                         ┌─────────────────────────────────────┐
-                        │     Is this the same work?          │
+                        │     這是相同的工作嗎？               │
                         └──────────────┬──────────────────────┘
                                        │
                     ┌──────────────────┼──────────────────┐
                     │                  │                  │
                     ▼                  ▼                  ▼
-             Same intent?      >50% overlap?      Can original
-             Same problem?     Same scope?        be "done" without
-                    │                  │          these changes?
+             相同意圖？        >50% 重疊？         沒有這些變更
+             相同問題？        相同範圍？          原始可以「完成」嗎？
                     │                  │                  │
           ┌────────┴────────┐  ┌──────┴──────┐   ┌───────┴───────┐
           │                 │  │             │   │               │
-         YES               NO YES           NO  NO              YES
+         是               否  是            否  否              是
           │                 │  │             │   │               │
           ▼                 ▼  ▼             ▼   ▼               ▼
-       UPDATE            NEW  UPDATE       NEW  UPDATE          NEW
+       更新             新增  更新         新增  更新           新增
 ```
 
-| Test | Update | New Change |
-|------|--------|------------|
-| **Identity** | "Same thing, refined" | "Different work" |
-| **Scope overlap** | >50% overlaps | <50% overlaps |
-| **Completion** | Can't be "done" without changes | Can finish original, new work stands alone |
-| **Story** | Update chain tells coherent story | Patches would confuse more than clarify |
+| 測試 | 更新 | 新的變更 |
+|------|------|---------|
+| **識別性** | 「相同的事情，精煉了」 | 「不同的工作」 |
+| **範圍重疊** | >50% 重疊 | <50% 重疊 |
+| **完成性** | 沒有這些變更無法「完成」 | 可以完成原始，新工作獨立存在 |
+| **故事** | 更新鏈說明了連貫的故事 | 修補會比澄清更加混亂 |
 
-### The Principle
+### 原則
 
-> **Update preserves context. New change provides clarity.**
+> **更新保留背景資訊。新的變更提供清晰度。**
 >
-> Choose update when the history of your thinking is valuable.
-> Choose new when starting fresh would be clearer than patching.
+> 當你思考的歷史有價值時，選擇更新。
+> 當重新開始比修補更清晰時，選擇新的。
 
-Think of it like git branches:
-- Keep committing while working on the same feature
-- Start a new branch when it's genuinely new work
-- Sometimes merge a partial feature and start fresh for phase 2
+像 git branch 一樣思考：
+- 在相同功能上工作時持續提交
+- 真的是新工作時開啟新分支
+- 有時合併部分功能，為第二階段重新開始
 
-## What's Different?
+## 有什麼不同？
 
-| | Legacy (`/openspec:proposal`) | OPSX (`/opsx:*`) |
+| | 舊版（`/openspec:proposal`） | OPSX（`/opsx:*`） |
 |---|---|---|
-| **Structure** | One big proposal document | Discrete artifacts with dependencies |
-| **Workflow** | Linear phases: plan → implement → archive | Fluid actions — do anything anytime |
-| **Iteration** | Awkward to go back | Update artifacts as you learn |
-| **Customization** | Fixed structure | Schema-driven (define your own artifacts) |
+| **結構** | 一個大型提案文件 | 有依賴關係的獨立產出物 |
+| **工作流程** | 線性階段：計劃 → 實作 → 封存 | 流暢行動 — 隨時做任何事 |
+| **迭代** | 回頭修改很尷尬 | 邊學習邊更新產出物 |
+| **自訂** | 固定結構 | 結構描述驅動（定義你自己的產出物） |
 
-**The key insight:** work isn't linear. OPSX stops pretending it is.
+**核心洞察：** 工作不是線性的。OPSX 停止假裝它是。
 
-## Architecture Deep Dive
+## 架構深入探討
 
-This section explains how OPSX works under the hood and how it compares to the legacy workflow.
-Examples in this section use the expanded command set (`new`, `continue`, etc.); default `core` users can map the same flow to `propose → apply → archive`.
+本章節說明 OPSX 的內部運作及其與舊版工作流程的比較。
+本章節的範例使用擴充指令集（`new`、`continue` 等）；預設 `core` 使用者可以將相同流程對應至 `propose → apply → archive`。
 
-### Philosophy: Phases vs Actions
+### 理念：階段 vs 行動
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         LEGACY WORKFLOW                                      │
-│                    (Phase-Locked, All-or-Nothing)                           │
+│                         舊版工作流程                                         │
+│                    （階段鎖定，全有或全無）                                   │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │   ┌──────────────┐      ┌──────────────┐      ┌──────────────┐             │
-│   │   PLANNING   │ ───► │ IMPLEMENTING │ ───► │   ARCHIVING  │             │
-│   │    PHASE     │      │    PHASE     │      │    PHASE     │             │
+│   │   計劃       │ ───► │   實作       │ ───► │   封存       │             │
+│   │   階段       │      │   階段       │      │   階段       │             │
 │   └──────────────┘      └──────────────┘      └──────────────┘             │
 │         │                     │                     │                       │
 │         ▼                     ▼                     ▼                       │
 │   /openspec:proposal   /openspec:apply      /openspec:archive              │
 │                                                                             │
-│   • Creates ALL artifacts at once                                          │
-│   • Can't go back to update specs during implementation                    │
-│   • Phase gates enforce linear progression                                  │
+│   • 一次建立所有產出物                                                       │
+│   • 無法在實作期間回頭更新規格                                               │
+│   • 階段閘門強制線性進程                                                     │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 
 
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                            OPSX WORKFLOW                                     │
-│                      (Fluid Actions, Iterative)                             │
+│                            OPSX 工作流程                                     │
+│                      （流暢行動，迭代式）                                     │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
 │              ┌────────────────────────────────────────────┐                 │
-│              │           ACTIONS (not phases)             │                 │
+│              │           行動（非階段）                    │                 │
 │              │                                            │                 │
 │              │   new ◄──► continue ◄──► apply ◄──► archive │                 │
 │              │    │          │           │           │    │                 │
 │              │    └──────────┴───────────┴───────────┘    │                 │
-│              │              any order                     │                 │
+│              │              任意順序                      │                 │
 │              └────────────────────────────────────────────┘                 │
 │                                                                             │
-│   • Create artifacts one at a time OR fast-forward                         │
-│   • Update specs/design/tasks during implementation                        │
-│   • Dependencies enable progress, phases don't exist                       │
+│   • 一次建立一個產出物 或 快進                                               │
+│   • 在實作期間更新規格/設計/任務                                             │
+│   • 依賴關係啟用進度，階段不存在                                             │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Component Architecture
+### 元件架構
 
-**Legacy workflow** uses hardcoded templates in TypeScript:
+**舊版工作流程**在 TypeScript 中使用硬編碼的範本：
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                      LEGACY WORKFLOW COMPONENTS                              │
+│                      舊版工作流程元件                                         │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│   Hardcoded Templates (TypeScript strings)                                  │
+│   硬編碼範本（TypeScript 字串）                                              │
 │                    │                                                        │
 │                    ▼                                                        │
-│   Tool-specific configurators/adapters                                      │
+│   工具特定設定器/轉接器                                                      │
 │                    │                                                        │
 │                    ▼                                                        │
-│   Generated Command Files (.claude/commands/openspec/*.md)                  │
+│   生成的指令檔案（.claude/commands/openspec/*.md）                           │
 │                                                                             │
-│   • Fixed structure, no artifact awareness                                  │
-│   • Change requires code modification + rebuild                             │
+│   • 固定結構，無產出物感知                                                   │
+│   • 變更需要程式碼修改 + 重建                                                │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**OPSX** uses external schemas and a dependency graph engine:
+**OPSX**使用外部結構描述和依賴圖引擎：
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         OPSX COMPONENTS                                      │
+│                         OPSX 元件                                            │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│   Schema Definitions (YAML)                                                 │
+│   結構描述定義（YAML）                                                       │
 │   ┌─────────────────────────────────────────────────────────────────────┐   │
 │   │  name: spec-driven                                                  │   │
 │   │  artifacts:                                                         │   │
 │   │    - id: proposal                                                   │   │
 │   │      generates: proposal.md                                         │   │
-│   │      requires: []              ◄── Dependencies                     │   │
+│   │      requires: []              ◄── 依賴關係                         │   │
 │   │    - id: specs                                                      │   │
-│   │      generates: specs/**/*.md  ◄── Glob patterns                    │   │
-│   │      requires: [proposal]      ◄── Enables after proposal           │   │
+│   │      generates: specs/**/*.md  ◄── Glob 模式                        │   │
+│   │      requires: [proposal]      ◄── 提案後啟用                       │   │
 │   └─────────────────────────────────────────────────────────────────────┘   │
 │                    │                                                        │
 │                    ▼                                                        │
-│   Artifact Graph Engine                                                     │
+│   產出物圖引擎                                                               │
 │   ┌─────────────────────────────────────────────────────────────────────┐   │
-│   │  • Topological sort (dependency ordering)                           │   │
-│   │  • State detection (filesystem existence)                           │   │
-│   │  • Rich instruction generation (templates + context)                │   │
+│   │  • 拓撲排序（依賴順序）                                              │   │
+│   │  • 狀態偵測（檔案系統存在性）                                        │   │
+│   │  • 豐富指示生成（範本 + 背景資訊）                                   │   │
 │   └─────────────────────────────────────────────────────────────────────┘   │
 │                    │                                                        │
 │                    ▼                                                        │
-│   Skill Files (.claude/skills/openspec-*/SKILL.md)                          │
+│   技能檔案（.claude/skills/openspec-*/SKILL.md）                             │
 │                                                                             │
-│   • Cross-editor compatible (Claude Code, Cursor, Windsurf)                 │
-│   • Skills query CLI for structured data                                    │
-│   • Fully customizable via schema files                                     │
+│   • 跨編輯器相容（Claude Code、Cursor、Windsurf）                            │
+│   • 技能向 CLI 查詢結構化資料                                                │
+│   • 可透過結構描述檔案完全自訂                                               │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Dependency Graph Model
+### 依賴圖模型
 
-Artifacts form a directed acyclic graph (DAG). Dependencies are **enablers**, not gates:
+產出物形成有向無環圖（DAG）。依賴關係是**啟用者**，而非閘門：
 
 ```
                               proposal
-                             (root node)
+                             （根節點）
                                   │
                     ┌─────────────┴─────────────┐
                     │                           │
                     ▼                           ▼
                  specs                       design
-              (requires:                  (requires:
-               proposal)                   proposal)
+              （requires:                  （requires:
+               proposal）                   proposal）
                     │                           │
                     └─────────────┬─────────────┘
                                   │
                                   ▼
                                tasks
-                           (requires:
-                           specs, design)
+                           （requires:
+                           specs, design）
                                   │
                                   ▼
                           ┌──────────────┐
-                          │ APPLY PHASE  │
-                          │ (requires:   │
-                          │  tasks)      │
+                          │  APPLY 階段  │
+                          │  （requires: │
+                          │   tasks）    │
                           └──────────────┘
 ```
 
-**State transitions:**
+**狀態轉換：**
 
 ```
    BLOCKED ────────────────► READY ────────────────► DONE
       │                        │                       │
-   Missing                  All deps               File exists
-   dependencies             are DONE               on filesystem
+   缺少                     所有依賴              檔案存在
+   依賴關係                  是 DONE              於檔案系統
 ```
 
-### Information Flow
+### 資訊流
 
-**Legacy workflow** — agent receives static instructions:
+**舊版工作流程** — 代理收到靜態指示：
 
 ```
-  User: "/openspec:proposal"
+  使用者："/openspec:proposal"
            │
            ▼
   ┌─────────────────────────────────────────┐
-  │  Static instructions:                   │
-  │  • Create proposal.md                   │
-  │  • Create tasks.md                      │
-  │  • Create design.md                     │
-  │  • Create specs/<capability>/spec.md    │
+  │  靜態指示：                             │
+  │  • 建立 proposal.md                     │
+  │  • 建立 tasks.md                        │
+  │  • 建立 design.md                       │
+  │  • 建立 specs/<capability>/spec.md      │
   │                                         │
-  │  No awareness of what exists or         │
-  │  dependencies between artifacts         │
+  │  不知道哪些已存在或                     │
+  │  產出物之間的依賴關係                   │
   └─────────────────────────────────────────┘
            │
            ▼
-  Agent creates ALL artifacts in one go
+  代理一次建立所有產出物
 ```
 
-**OPSX** — agent queries for rich context:
+**OPSX** — 代理查詢豐富背景資訊：
 
 ```
-  User: "/opsx:continue"
+  使用者："/opsx:continue"
            │
            ▼
   ┌──────────────────────────────────────────────────────────────────────────┐
-  │  Step 1: Query current state                                             │
+  │  步驟 1：查詢目前狀態                                                    │
   │  ┌────────────────────────────────────────────────────────────────────┐  │
   │  │  $ openspec status --change "add-auth" --json                      │  │
   │  │                                                                    │  │
   │  │  {                                                                 │  │
   │  │    "artifacts": [                                                  │  │
   │  │      {"id": "proposal", "status": "done"},                         │  │
-  │  │      {"id": "specs", "status": "ready"},      ◄── First ready      │  │
+  │  │      {"id": "specs", "status": "ready"},      ◄── 第一個準備好     │  │
   │  │      {"id": "design", "status": "ready"},                          │  │
   │  │      {"id": "tasks", "status": "blocked", "missingDeps": ["specs"]}│  │
   │  │    ]                                                               │  │
   │  │  }                                                                 │  │
   │  └────────────────────────────────────────────────────────────────────┘  │
   │                                                                          │
-  │  Step 2: Get rich instructions for ready artifact                        │
+  │  步驟 2：取得準備好的產出物的豐富指示                                     │
   │  ┌────────────────────────────────────────────────────────────────────┐  │
   │  │  $ openspec instructions specs --change "add-auth" --json          │  │
   │  │                                                                    │  │
@@ -513,72 +512,72 @@ Artifacts form a directed acyclic graph (DAG). Dependencies are **enablers**, no
   │  │  }                                                                 │  │
   │  └────────────────────────────────────────────────────────────────────┘  │
   │                                                                          │
-  │  Step 3: Read dependencies → Create ONE artifact → Show what's unlocked  │
+  │  步驟 3：讀取依賴 → 建立一個產出物 → 顯示解鎖了什麼                       │
   └──────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Iteration Model
+### 迭代模型
 
-**Legacy workflow** — awkward to iterate:
+**舊版工作流程** — 迭代很尷尬：
 
 ```
   ┌─────────┐     ┌─────────┐     ┌─────────┐
   │/proposal│ ──► │ /apply  │ ──► │/archive │
   └─────────┘     └─────────┘     └─────────┘
        │               │
-       │               ├── "Wait, the design is wrong"
+       │               ├── 「等等，設計是錯的」
        │               │
-       │               ├── Options:
-       │               │   • Edit files manually (breaks context)
-       │               │   • Abandon and start over
-       │               │   • Push through and fix later
+       │               ├── 選項：
+       │               │   • 手動編輯檔案（破壞背景資訊）
+       │               │   • 放棄並重新開始
+       │               │   • 硬撐然後之後修復
        │               │
-       │               └── No official "go back" mechanism
+       │               └── 沒有官方的「回頭」機制
        │
-       └── Creates ALL artifacts at once
+       └── 一次建立所有產出物
 ```
 
-**OPSX** — natural iteration:
+**OPSX** — 自然迭代：
 
 ```
   /opsx:new ───► /opsx:continue ───► /opsx:apply ───► /opsx:archive
       │                │                  │
-      │                │                  ├── "The design is wrong"
+      │                │                  ├── 「設計是錯的」
       │                │                  │
       │                │                  ▼
-      │                │            Just edit design.md
-      │                │            and continue!
+      │                │            只要編輯 design.md
+      │                │            然後繼續！
       │                │                  │
       │                │                  ▼
-      │                │         /opsx:apply picks up
-      │                │         where you left off
+      │                │         /opsx:apply 從上次離開
+      │                │         的地方繼續
       │                │
-      │                └── Creates ONE artifact, shows what's unlocked
+      │                └── 建立一個產出物，顯示解鎖了什麼
       │
-      └── Scaffolds change, waits for direction
+      └── 建立變更架構，等待方向
 ```
 
-### Custom Schemas
+### 自訂結構描述
 
-Create custom workflows using the schema management commands:
+使用結構描述管理指令建立自訂工作流程：
 
 ```bash
-# Create a new schema from scratch (interactive)
+# 從頭建立新的結構描述（互動式）
 openspec schema init my-workflow
 
-# Or fork an existing schema as a starting point
+# 或以現有結構描述為起點衍生
 openspec schema fork spec-driven my-workflow
 
-# Validate your schema structure
+# 驗證你的結構描述結構
 openspec schema validate my-workflow
 
-# See where a schema resolves from (useful for debugging)
+# 查看結構描述從哪裡解析（適合偵錯）
 openspec schema which my-workflow
 ```
 
-Schemas are stored in `openspec/schemas/` (project-local, version controlled) or `~/.local/share/openspec/schemas/` (user global).
+結構描述存放在 `openspec/schemas/`（專案本地，版本控制）或 `~/.local/share/openspec/schemas/`（使用者全域）。
 
-**Schema structure:**
+**結構描述結構：**
 ```
 openspec/schemas/research-first/
 ├── schema.yaml
@@ -588,72 +587,72 @@ openspec/schemas/research-first/
     └── tasks.md
 ```
 
-**Example schema.yaml:**
+**schema.yaml 範例：**
 ```yaml
 name: research-first
 artifacts:
-  - id: research        # Added before proposal
+  - id: research        # 在提案前加入
     generates: research.md
     requires: []
 
   - id: proposal
     generates: proposal.md
-    requires: [research]  # Now depends on research
+    requires: [research]  # 現在依賴研究
 
   - id: tasks
     generates: tasks.md
     requires: [proposal]
 ```
 
-**Dependency Graph:**
+**依賴圖：**
 ```
    research ──► proposal ──► tasks
 ```
 
-### Summary
+### 摘要
 
-| Aspect | Legacy | OPSX |
-|--------|----------|------|
-| **Templates** | Hardcoded TypeScript | External YAML + Markdown |
-| **Dependencies** | None (all at once) | DAG with topological sort |
-| **State** | Phase-based mental model | Filesystem existence |
-| **Customization** | Edit source, rebuild | Create schema.yaml |
-| **Iteration** | Phase-locked | Fluid, edit anything |
-| **Editor Support** | Tool-specific configurator/adapters | Single skills directory |
+| 方面 | 舊版 | OPSX |
+|------|------|------|
+| **範本** | 硬編碼 TypeScript | 外部 YAML + Markdown |
+| **依賴關係** | 無（一次全部） | 帶拓撲排序的 DAG |
+| **狀態** | 基於階段的心智模型 | 檔案系統存在性 |
+| **自訂** | 編輯原始碼，重建 | 建立 schema.yaml |
+| **迭代** | 階段鎖定 | 流暢，可編輯任何東西 |
+| **編輯器支援** | 工具特定設定器/轉接器 | 單一技能目錄 |
 
-## Schemas
+## 結構描述
 
-Schemas define what artifacts exist and their dependencies. Currently available:
+結構描述定義哪些產出物存在及其依賴關係。目前可用：
 
-- **spec-driven** (default): proposal → specs → design → tasks
+- **spec-driven**（預設）：proposal → specs → design → tasks
 
 ```bash
-# List available schemas
+# 列出可用的結構描述
 openspec schemas
 
-# See all schemas with their resolution sources
+# 查看所有結構描述及其解析來源
 openspec schema which --all
 
-# Create a new schema interactively
+# 互動式建立新的結構描述
 openspec schema init my-workflow
 
-# Fork an existing schema for customization
+# 衍生現有結構描述以進行自訂
 openspec schema fork spec-driven my-workflow
 
-# Validate schema structure before use
+# 使用前驗證結構描述結構
 openspec schema validate my-workflow
 ```
 
-## Tips
+## 使用技巧
 
-- Use `/opsx:explore` to think through an idea before committing to a change
-- `/opsx:ff` when you know what you want, `/opsx:continue` when exploring
-- During `/opsx:apply`, if something's wrong — fix the artifact, then continue
-- Tasks track progress via checkboxes in `tasks.md`
-- Check status anytime: `openspec status --change "name"`
+- 在承諾進行變更之前，使用 `/opsx:explore` 思考想法
+- 知道要建構什麼時用 `/opsx:ff`，探索時用 `/opsx:continue`
+- 在 `/opsx:apply` 期間，若有問題 — 修正產出物，然後繼續
+- 任務透過 `tasks.md` 中的核取方塊追蹤進度
+- 隨時查看狀態：`openspec status --change "name"`
 
-## Feedback
+## 意見回饋
 
-This is rough. That's intentional — we're learning what works.
+這仍是粗糙的。這是刻意的 — 我們正在學習什麼最有效。
 
-Found a bug? Have ideas? Join us on [Discord](https://discord.gg/YctCnvvshC) or open an issue on [GitHub](https://github.com/Fission-AI/openspec/issues).
+發現 bug？有想法？在 [Discord](https://discord.gg/YctCnvvshC) 加入我們，或在 [GitHub](https://github.com/Fission-AI/openspec/issues) 開啟 issue。
